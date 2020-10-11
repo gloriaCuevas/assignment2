@@ -10,11 +10,11 @@ public class CDAccount extends BankAccount{
 	private double balance;
 	private long accountNumber;
 		
-	public CDAccount(CDOffering offering, double openBalance){
-		this.date = new Date();
-		this.offering = offering;
-		this.balance = openBalance;
-		this.accountNumber = MeritBank.getNextAccountNumber();
+	
+	CDAccount(CDOffering offering, double balance) 
+	{
+			super(balance, offering.getInterestRate());
+			this.offering = offering;
 	}
 	
 	public double getBalance() {
