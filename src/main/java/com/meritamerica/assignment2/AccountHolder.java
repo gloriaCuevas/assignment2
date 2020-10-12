@@ -1,52 +1,57 @@
 package com.meritamerica.assignment2;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 public class AccountHolder {
 	
-	private String fName = "";
-	private String mName = "";
-	private String lName = "";
-	private String ssn = "";
+	private String firstName;
+	private String middleName;
+	private String lastName;
+	private String ssn;
+	private double checkingAccountBalance;
+	private double savingsAccountBalance;
+	private double cdAccountBalance;
+	private int numberOfCDAccounts;
+	private int numberOfSavingsAccounts;
+	private int numberOfCheckingAccounts;
+	private double totalBalance;
+	private SavingsAccount[] savingsAccount = new SavingsAccount[initSize];
+	private CheckingAccount[] checkingAccounts = new CheckingAccount[initSize];
+	private CDAccount[] cdAccount = new CDAccount[initSize];
+	private static int initSize = 5;
 	
-	private BankAccount[] accnts;
-	
-	//The parameters for the account holder
-	public AccountHolder(String fName, String mName, String lName, String ssn) 
-	{
 		
-		this.fName = fName;
-		this.mName = mName;
-		this.lName = lName;
-		this.ssn = ssn;
-		this.accnts = new BankAccount[0];
-		this.addCheckingAccount(openingBalance);
-		this.addSavingsAccount(openingBalance);
-		
-	}
+		public AccountHolder(String firstName, String middleName, String lastName, String ssn) 
+		{
+			this.firstName = firstName;
+			this.middleName = middleName;
+			this.lastName = lastName;
+			this.ssn = ssn;
+			
+		}
 	
 	
-	//getters and setters
 	public String getFirstName() {
-		return fName;
+		return firstName;
 	}
 	public void setFirstName(String fName) {
-		this.fName = fName;
+		this.firstName = fName;
 	}
 	
 	
 	public String getMiddleName() {
-		return mName;
+		return middleName;
 	}
 	public void setMiddleName(String mName) {
-		this.mName = mName;
+		this.middleName = mName;
 	}
 	
 	
 	public String getLastname() {
-		return lName;
+		return lastName;
 	}
 	public void setLastName(String lName) {
-		this.lName = lName;
+		this.lastName = lName;
 	}
 	
 	
@@ -57,96 +62,142 @@ public class AccountHolder {
 		this.ssn = ssn;
 	}
 	
-	
-	
-	CheckingAccount addCheckingAccount(double openingBalance) 
-	{
-		CheckingAccount checkAccount = new CheckingAccount(openingBalance);
+	public CheckingAccount addCheckingAccount(double openingBalance) {
 		
-		if(getCheckingBalance() + getSavingsBalance() + checkAccount.getTheBalance() >= 25000)
-			return checkAccount;
-	}	
-		BankAccount[] more = new BankAccount[this.accnts.length + 1];
-	
-	
-	
-	CheckingAccount addCheckingAccount(CheckingAccount checkingAccount) {
-		return;
+		if ((openingBalance + getCheckingBalance() + getSavingsBalance()) < 250000) {
+			numberOfCheckingAccounts++;
+			
+			if (numberOfCheckingAccounts > checkingAccounts.length)
+			{
+				CheckingAccount[] checkingAccountsTemp = 
+						Arrays.copyOf(checkingAccounts, checkingAccounts.length + 5);
+				checkingAccounts = checkingAccountsTemp;
+			}
+		checkingAccounts[numberOfCheckingAccounts - 1] = new CheckingAccount(openingBalance);
+		return checkingAccounts[numberOfCheckingAccounts - 1];
+		}
+		return null;
 	}
-	CheckingAccount[] getCheckingAccounts() {
-		return checkingaccount;
-	}
-	public int getNumberOfCheckingAccounts()
-	{
-		
-	}
-	public double getCheckingBalance()
-	{
-		
-	}
-	SavingsAccount addSavingsAccount(double openingBalance)
-	{
-	return;	
-	}
-	SavingsAccount addSavingsAccount(SavingsAccount savingsAccount)
-	{
-	return;	
-	}
-	SavingsAccount[] getSavingsAccount() {
-	}
-		return savingaccount;
-	}
-	public int getNumberOfSavingsAccounts()
-	{
-		
-	}
-	public double getSavingsBalance()
-	{
-		
-	}
-	CDAccount addCDAccount (CDOffering offering, double openingBalance)
-	{
-		
-	}
-	
-	CDAccount addCDAccount(CDAccount cdAccount)
-	{
-		
-	}
-	CDAccount[] getCDAccounts() 
-	{
-		
-	}
-	public int getNumberOfCDAccounts()
-	{
-		
-	}
-	public double getCDBalance()
-	{
-		
-	}
-	
-	public double getCombinedBalance()
-	{
 
+	
+	public CheckingAccount addCheckingAccount(CheckingAccount checkingAccount)
+	{
+		if ((checkingAccount.getTheBalance() + getCheckingBalance() + getSavingsBalance()) < 250000)
+		{
+			checkingAccounts[numberOfSavingsAccounts] = checkingAccount;
+			numberOfCheckingAccounts++;
+			
+			if(numberOfCheckingAccounts > checkingAccounts.length)
+			{
+				CheckingAccount[] checkingAccountsTemp = Arrays.copyOf(checkingAccounts, checkingAccounts.length + 5);
+				checkingAccounts = checkingAccountsTemp;
+				
+			}
+			checkingAccounts[numberOfCheckingAccounts - 1] = checkingAccount;
+			return checkingAccounts[numberOfCheckingAccounts -1];
+			} 
+			else {
+			return null;
+		}
+		return checkingAccount;
 	}
+
 	
+	public CheckingAccount[] getCheckingAccounts() {
+		return checkingAccount;
+	}
+
 	
-		
+	public int getNumberOfCheckingAccounts() {
+		return numberOfCheckingAccounts;
+	}
+
 	
-	/*public String toString() {
-		DecimalFormat decf = new DecimalFormat("0.##");
-		
-		return "Acount holders name: " + fName + " " + mName + " " + lName + "\n"
-				+ "Social Security number: " + ssn + "\n"
-				+ "The checking account balance: " + decf.format(checkingaccount.getTheBalance()) + "\n"
-				+ "The saving account balance:" + decf.format(savingaccount.getTheBalance()) + "\n"
-				+ "Checking Account balance in 3 years: " + decf.format(checkingaccount.interestVal(3)) + "\n"
-				+ "Savings Account balance in 3 n years: " + decf.format(savingaccount.interestVal(3)) + "\n"
-				+ "The Checking Account with an interest rate of: " + checkingaccount.getIntRate() + "\n"
-				+ "The Savings Account with an interest rate of: " + savingaccount.getIntRate();
-		
-	}*/
+	public double getCheckingBalance() {
+		for (int x = 0; x < checkingAccount.length - 1; x++) {
+			checkingAccountBalance += checkingAccount[x].getTheBalance();
+		}
+		return checkingAccountBalance;
+	}
+
+	
+	public SavingsAccount addSavingsAccount(double openingBalance) {
+		SavingsAccount savings = new SavingsAccount(openingBalance);
+		if (getCombinedBalance() < 250000) {
+			savingsAccount[numberOfSavingsAccount] = savings;
+			numberOfSavingsAccount++;
+		} else {
+			return null;
+		}
+		return savings;
+	}
+
+	
+	public SavingsAccount addSavingsAccount(SavingsAccount savingsAccount) {
+		if (getCombinedBalance() < 250000) {
+			this.savingsAccount[numberOfSavingsAccount] = savingsAccount;
+			numberOfSavingsAccount++;
+		} else {
+			return null;
+		}
+		return savingsAccount;
+	}
+
+	
+	public SavingsAccount[] getSavingsAccounts() {
+		return savingsAccount;
+	}
+
+	
+	public int getNumberOfSavingsAccounts() {
+		return numberOfSavingsAccount;
+	}
+
+	
+	public double getSavingsBalance() {
+		for (int y = 0; y < savingsAccount.length - 1; y++) {
+			savingsAccountBalance += savingsAccount[y].getBalance();
+		}
+		return savingsAccountBalance;
+	}
+
+	
+	public CDAccount addCDAccount(CDOffering offering, double openingBalance) {
+		CDAccount cd = new CDAccount(offering, openingBalance);
+		this.cdAccount[numberOfCDAccount] = cd;
+		numberOfCDAccount++;
+		return cd;
+	}
+
+	
+	public CDAccount addCDAccount(CDAccount cdAccount) {
+		this.cdAccount[numberOfCDAccount] = cdAccount;
+		numberOfCDAccount++;
+		return cdAccount;
+	}
+
+	
+	public CDAccount[] getCDAccounts() {
+		return cdAccount;
+	}
+
+	
+	public int getNumberOfCDAccounts() {
+		return numberOfCDAccount;
+	}
+
+	public double getCDBalance() {
+		for (CDAccount x : cdAccount) {
+			cdAccountBalance += x.getBalance();
+		}
+		return cdAccountBalance;
+	}
+
+	public double getCombinedBalance() {
+		totalBalance = checkingAccountBalance + savingsAccountBalance + cdAccountBalance;
+		return totalBalance;
+	}
+
 }
 
 

@@ -12,7 +12,6 @@ public class BankAccount {
 	     this.balance = balance;
 	}
 	
-	
 	public BankAccount(long accountNumber, double balance, double interestRate)
 	{
 		accountNumber = getAccountNumber();
