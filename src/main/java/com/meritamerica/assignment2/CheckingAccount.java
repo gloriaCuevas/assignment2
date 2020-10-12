@@ -7,7 +7,7 @@ public class CheckingAccount extend BankAccount{
 	private double intRate = 0.01;
 	private int yrs = 0;
 	//interest value in the future
-	private double IV = 0;
+	private double FV = 0;
 	
 	public CheckingAccount(double checkingAccountStartBal) {
 		bal = checkingAccountStartBal;
@@ -47,21 +47,22 @@ public class CheckingAccount extend BankAccount{
 	
 	
 	
-	//calculates the interest rate
-	public double interestVal(int yrs) {
+	//calculates the interest rate in future
+	public double futureVal(int yrs) {
 		double val = 0.00;
 		this.yrs = yrs;
 		double exp = Math.pow((1 + intRate), yrs);
 		val = bal * exp;
-		IV = val;
-		return IV;
+		FV = val;
+		
+		return FV;
 	}
 	
 	public String toString() {
-		double IV = interestVal(yrs);
+		double FV = futureVal(yrs);
 		DecimalFormat decf = new DecimalFormat("0.##");
-		return "The savings account balance is " + decf.format(bal) + "\n"
-				+ "Your savings account balance in " + yrs + " years is " + decf.format(IV) + "\n"
+		return "The checking account balance is " + decf.format(bal) + "\n"
+				+ "Your checking account balance in " + yrs + " years is " + decf.format(FV) + "\n"
 				+ "This is at the current interest rate  of " + intRate;
 			
 	}

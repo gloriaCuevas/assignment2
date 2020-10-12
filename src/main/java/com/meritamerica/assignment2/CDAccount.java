@@ -3,9 +3,8 @@ import java.util.Date;
 
 public class CDAccount extends BankAccount{
 	
-	
-
-	CDOffering offering;
+	private int accInt = 1;
+	private CDOffering offering;
 	Date date;
 	private double balance;
 	private long accountNumber;
@@ -15,6 +14,9 @@ public class CDAccount extends BankAccount{
 	{
 			super(balance, offering.getInterestRate());
 			this.offering = offering;
+			this.date = date;
+			
+			accountNumber = accInt++;
 	}
 	
 	public double getBalance() {

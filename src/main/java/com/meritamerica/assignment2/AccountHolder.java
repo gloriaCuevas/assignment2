@@ -8,9 +8,7 @@ public class AccountHolder {
 	private String lName = "";
 	private String ssn = "";
 	
-	CheckingAccount checkingaccount;
-	SavingsAccount savingaccount;
-	
+	private BankAccount[] accnts;
 	
 	//The parameters for the account holder
 	public AccountHolder(String fName, String mName, String lName, String ssn) 
@@ -20,6 +18,9 @@ public class AccountHolder {
 		this.mName = mName;
 		this.lName = lName;
 		this.ssn = ssn;
+		this.accnts = new BankAccount[0];
+		this.addCheckingAccount(openingBalance);
+		this.addSavingsAccount(openingBalance);
 		
 	}
 	
@@ -56,10 +57,19 @@ public class AccountHolder {
 		this.ssn = ssn;
 	}
 	
+	
+	
 	CheckingAccount addCheckingAccount(double openingBalance) 
 	{
-		return;
-	}
+		CheckingAccount checkAccount = new CheckingAccount(openingBalance);
+		
+		if(getCheckingBalance() + getSavingsBalance() + checkAccount.getTheBalance() >= 25000)
+			return checkAccount;
+	}	
+		BankAccount[] more = new BankAccount[this.accnts.length + 1];
+	
+	
+	
 	CheckingAccount addCheckingAccount(CheckingAccount checkingAccount) {
 		return;
 	}
