@@ -5,14 +5,18 @@ import java.text.DecimalFormat;
 
 public class SavingsAccount extends BankAccount{
 	
-	private double bal;
-	private double intRate = 0.01;
+	private static double bal;
+	private static double intRate = 0.01;
 	private int yrs = 0;
 	
-	public SavingsAccount(double StartBalance, double balance, double interestRate) 
+	
+	
+	public SavingsAccount(double StartBalance) 
 	{
-		super(balance, interestRate);
+	
+		super(bal, intRate);
 		StartBalance = bal;
+		
 	}
 	
 	public double getTheBalance() 

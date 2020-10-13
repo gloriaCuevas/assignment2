@@ -1,5 +1,4 @@
 package com.meritamerica.assignment2;
-import java.text.DecimalFormat;
 import java.util.Arrays;
 
 public class AccountHolder {
@@ -15,9 +14,9 @@ public class AccountHolder {
 	private int numberOfSavingsAccounts;
 	private int numberOfCheckingAccounts;
 	private double totalBalance;
-	private SavingsAccount[] savingsAccount = new SavingsAccount[initSize];
+	private SavingsAccount[] savingsAccounts = new SavingsAccount[initSize];
 	private CheckingAccount[] checkingAccounts = new CheckingAccount[initSize];
-	private CDAccount[] cdAccount = new CDAccount[initSize];
+	private CDAccount[] cdAccounts = new CDAccount[initSize];
 	private static int initSize = 5;
 	
 		
@@ -96,15 +95,12 @@ public class AccountHolder {
 			checkingAccounts[numberOfCheckingAccounts - 1] = checkingAccount;
 			return checkingAccounts[numberOfCheckingAccounts -1];
 			} 
-			else {
+		
 			return null;
 		}
-		return checkingAccount;
-	}
-
 	
 	public CheckingAccount[] getCheckingAccounts() {
-		return checkingAccount;
+		return checkingAccounts;
 	}
 
 	
@@ -114,80 +110,96 @@ public class AccountHolder {
 
 	
 	public double getCheckingBalance() {
-		for (int x = 0; x < checkingAccount.length - 1; x++) {
-			checkingAccountBalance += checkingAccount[x].getTheBalance();
+		for (int x = 0; x < checkingAccounts.length - 1; x++) {
+			checkingAccountBalance += checkingAccounts[x].getTheBalance();
 		}
 		return checkingAccountBalance;
 	}
 
 	
 	public SavingsAccount addSavingsAccount(double openingBalance) {
-		SavingsAccount savings = new SavingsAccount(openingBalance);
-		if (getCombinedBalance() < 250000) {
-			savingsAccount[numberOfSavingsAccount] = savings;
-			numberOfSavingsAccount++;
-		} else {
-			return null;
+		if ((openingBalance + getCheckingBalance() + getSavingsBalance()) < 250000) {
+			numberOfSavingsAccounts++;
+			
+			if (numberOfSavingsAccounts > savingsAccounts.length)
+			{
+				SavingsAccount[] savingsAccountsTemp = 
+						Arrays.copyOf(savingsAccounts, savingsAccounts.length + 5);
+				savingsAccounts = savingsAccountsTemp;
+			}
+		savingsAccounts[numberOfSavingsAccounts - 1] = new SavingsAccount(openingBalance);
+		return savingsAccounts[numberOfSavingsAccounts - 1];
 		}
-		return savings;
+		return null;
 	}
 
 	
 	public SavingsAccount addSavingsAccount(SavingsAccount savingsAccount) {
-		if (getCombinedBalance() < 250000) {
-			this.savingsAccount[numberOfSavingsAccount] = savingsAccount;
-			numberOfSavingsAccount++;
-		} else {
+		if((savingsAccount.getTheBalance() + getSavingsBalance() + getCheckingBalance()) < 250000)
+		{
+			savingsAccounts[numberOfSavingsAccounts] = savingsAccount;
+			numberOfSavingsAccounts++;
+			
+			if(numberOfSavingsAccounts > savingsAccounts.length)
+			{
+				SavingsAccount[] savingsAccountsTemp = Arrays.copyOf(savingsAccounts, savingsAccounts.length + 5);
+				savingsAccounts = savingsAccountsTemp;
+				
+			}
+			savingsAccounts[numberOfSavingsAccounts - 1] = savingsAccount;
+			return savingsAccounts[numberOfSavingsAccounts -1];
+			} 
+		
 			return null;
 		}
-		return savingsAccount;
-	}
-
 	
-	public SavingsAccount[] getSavingsAccounts() {
-		return savingsAccount;
-	}
-
-	
-	public int getNumberOfSavingsAccounts() {
-		return numberOfSavingsAccount;
-	}
-
 	
 	public double getSavingsBalance() {
-		for (int y = 0; y < savingsAccount.length - 1; y++) {
-			savingsAccountBalance += savingsAccount[y].getBalance();
+		for (int y = 0; y < savingsAccounts.length - 1; y++) {
+			savingsAccountBalance += savingsAccounts[y].getBalance();
 		}
 		return savingsAccountBalance;
 	}
 
 	
-	public CDAccount addCDAccount(CDOffering offering, double openingBalance) {
-		CDAccount cd = new CDAccount(offering, openingBalance);
-		this.cdAccount[numberOfCDAccount] = cd;
-		numberOfCDAccount++;
-		return cd;
+	public CDAccount addCDAccount(CDOffering offering, double openingBalance) 
+	{
+		if (numberOfCDAccounts > cdAccounts.length)
+		{
+			CDAccount[] cdAccountsTemp = 
+					Arrays.copyOf(cdAccounts, cdAccounts.length + 5);
+			cdAccounts = cdAccountsTemp;
+		}
+	cdAccounts[numberOfCDAccounts - 1] = new CDAccount(offering, openingBalance);
+	return cdAccounts[numberOfCDAccounts - 1];
 	}
+	
 
 	
-	public CDAccount addCDAccount(CDAccount cdAccount) {
-		this.cdAccount[numberOfCDAccount] = cdAccount;
-		numberOfCDAccount++;
-		return cdAccount;
+	public CDAccount addCDAccount(CDAccount cdAccount) 
+	{
+		if (numberOfCDAccounts > cdAccounts.length)
+		{
+			CDAccount[] cdAccountsTemp = 
+					Arrays.copyOf(cdAccounts, cdAccounts.length + 5);
+			cdAccounts = cdAccountsTemp;
+		}
+		cdAccounts[numberOfCDAccounts - 1] = cdAccount;
+		return cdAccounts[numberOfCDAccounts - 1];
 	}
-
+	
 	
 	public CDAccount[] getCDAccounts() {
-		return cdAccount;
+		return cdAccounts;
 	}
 
 	
 	public int getNumberOfCDAccounts() {
-		return numberOfCDAccount;
+		return numberOfCDAccounts;
 	}
 
 	public double getCDBalance() {
-		for (CDAccount x : cdAccount) {
+		for (CDAccount x : cdAccounts ){
 			cdAccountBalance += x.getBalance();
 		}
 		return cdAccountBalance;

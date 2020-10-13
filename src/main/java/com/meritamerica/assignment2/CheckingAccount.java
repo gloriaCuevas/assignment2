@@ -2,15 +2,19 @@ package com.meritamerica.assignment2;
 import java.text.DecimalFormat;
 
 
-public class CheckingAccount extend BankAccount{
-	private double bal;
-	private double intRate = 0.01;
-	private int yrs = 0;
-	//interest value in the future
-	private double FV = 0;
+public class CheckingAccount extends BankAccount
+{
 	
-	public CheckingAccount(double checkingAccountStartBal) {
-		bal = checkingAccountStartBal;
+	private static double bal;
+	private static double intRate = 0.01;
+	private int yrs = 0;
+	private double IV = 0;
+	
+	
+	public CheckingAccount(double checkingAccountStartBal) 
+	{
+		super(bal, intRate);
+		checkingAccountStartBal = bal;
 	}
 	
 	public double getTheBalance() {
@@ -47,22 +51,21 @@ public class CheckingAccount extend BankAccount{
 	
 	
 	
-	//calculates the interest rate in future
-	public double futureVal(int yrs) {
+	//calculates the interest rate
+	public double interestVal(int yrs) {
 		double val = 0.00;
 		this.yrs = yrs;
 		double exp = Math.pow((1 + intRate), yrs);
 		val = bal * exp;
-		FV = val;
-		
-		return FV;
+		IV = val;
+		return IV;
 	}
 	
 	public String toString() {
-		double FV = futureVal(yrs);
+		double IV = interestVal(yrs);
 		DecimalFormat decf = new DecimalFormat("0.##");
-		return "The checking account balance is " + decf.format(bal) + "\n"
-				+ "Your checking account balance in " + yrs + " years is " + decf.format(FV) + "\n"
+		return "The savings account balance is " + decf.format(bal) + "\n"
+				+ "Your savings account balance in " + yrs + " years is " + decf.format(IV) + "\n"
 				+ "This is at the current interest rate  of " + intRate;
 			
 	}
